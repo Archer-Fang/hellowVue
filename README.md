@@ -1,41 +1,40 @@
-仿知乎日报学习笔记与优化
-=======
-		[单页网页应用项目原地址：（有些小BUG）](https://github.com/pomelo-chuan/Zhihu-Daily-Vue.js)
-		[知乎日报api查询：](https://github.com/izzyleung/ZhihuDailyPurify/wiki/%E7%9F%A5%E4%B9%8E%E6%97%A5%E6%8A%A5-API-%E5%88%86%E6%9E%90)
-		如果想看完整的API的json数据的话，推荐使用sublime，网上搜索sublime json格式化。
-		1.vuex跨域访问
-			1.1定义api：const urlBase = '/api/';
-			1.2在config中配置api的HTTP代理表： HTTP代理表，指定规则，将某些API请求代理到相应的服务器
-				proxyTable: {
-						'/api': {
-							target: 'https://news-at.zhihu.com/api/4',
-							changeOrigin: true,
-							pathRewrite: {
-								'^/api': '/'
-							}
-						}
-					}
-			1.3配置API请求node-file.js:
-				以该项目首页点击加载更多内容为例
-				router.get('/before/:time', function (req, res, next) {
-					 var time = req.params.time;
-					 var options = {
-							 method: "GET",
-							 url: "http://news-at.zhihu.com/api/4/news/before/" + time
-					 };
-						request(options, function (error, response, body) {
-								if (error) throw new Error(error);
-								res.json(JSON.parse(body))
-						});
-				});
-			1.4访问顺序
-				1.点击链接---被router接收---返回一个组件--组件在created时通过dispatch动作去fetch数据--通过axios进行跨域访问---定义的/api/被代理表转化为https://news-at.zhihu.com/api/4/****--****被router.get捕获--获取api的json数据--完成以后commit到mutation对数组进行处理赋值---.vue通过计算属性获取数值
-				这里,因为将API请求代理到相应的服务器所以router.get中的 url: "http://news-at.zhihu.com/api/4/news/before/" + time才会有效的，即通过服务器进行跨域访问
-				优化设置axios的baseURL='/api'，这样就不用每次手工加api了
-				2.点击链接---被router接收---返回一个组件--组件在mouted时通过回调函数this.axios.get()进行伪跨域访问，在http.js为axios的baseUrl赋值如：
-				axios.defaults.baseURL = 'https://api.github.com';
-				再使用拦截器进行一系列参数赋值等等最后返回response,即api的json数据对.vue中的date进行赋值。拦截器拦截所有的请求与响应。这个具体实现步骤可以参照项目：https://github.com/superman66/vue-axios-github。
-				这里跟跨域很像，但是我觉得不是跨域，是根据header的标识来返回github上我的资源的。这个项目是没有配置proxytable的
+#仿知乎日报学习笔记与优化
+项目原地址（有些小BUG）：单页网页应用：https://github.com/pomelo-chuan/Zhihu-Daily-Vue.js
+知乎日报api查询：https://github.com/izzyleung/ZhihuDailyPurify/wiki/%E7%9F%A5%E4%B9%8E%E6%97%A5%E6%8A%A5-API-%E5%88%86%E6%9E%90
+如果想看完整的API的json数据的话，推荐使用sublime，网上搜索sublime json格式化。
+1.vuex跨域访问
+	1.1定义api：const urlBase = '/api/';
+	1.2在config中配置api的HTTP代理表： HTTP代理表，指定规则，将某些API请求代理到相应的服务器
+		proxyTable: {
+	      '/api': {
+	        target: 'https://news-at.zhihu.com/api/4',
+	        changeOrigin: true,
+	        pathRewrite: {
+	          '^/api': '/'
+	        }
+	      }
+	    }
+	1.3配置API请求node-file.js:
+		以该项目首页点击加载更多内容为例
+		router.get('/before/:time', function (req, res, next) {
+		   var time = req.params.time;
+		   var options = {
+		       method: "GET",
+		       url: "http://news-at.zhihu.com/api/4/news/before/" + time
+		   };
+		    request(options, function (error, response, body) {
+		        if (error) throw new Error(error);
+		        res.json(JSON.parse(body))
+		    });
+		});
+	1.4访问顺序
+		1.点击链接---被router接收---返回一个组件--组件在created时通过dispatch动作去fetch数据--通过axios进行跨域访问---定义的/api/被代理表转化为https://news-at.zhihu.com/api/4/****--****被router.get捕获--获取api的json数据--完成以后commit到mutation对数组进行处理赋值---.vue通过计算属性获取数值
+		这里,因为将API请求代理到相应的服务器所以router.get中的 url: "http://news-at.zhihu.com/api/4/news/before/" + time才会有效的，即通过服务器进行跨域访问
+		优化设置axios的baseURL='/api'，这样就不用每次手工加api了
+		2.点击链接---被router接收---返回一个组件--组件在mouted时通过回调函数this.axios.get()进行伪跨域访问，在http.js为axios的baseUrl赋值如：
+		axios.defaults.baseURL = 'https://api.github.com';
+		再使用拦截器进行一系列参数赋值等等最后返回response,即api的json数据对.vue中的date进行赋值。拦截器拦截所有的请求与响应。这个具体实现步骤可以参照项目：https://github.com/superman66/vue-axios-github。
+		这里跟跨域很像，但是我觉得不是跨域，是根据header的标识来返回github上我的资源的。这个项目是没有配置proxytable的
 2.关于首页点击加载更多内容，点击一次，天数减少一天的实现：
 	2.1在state中定义当前时间：time: moment()
 	2.2在action中讲当前时间格式化:var now = state.time.format("YYYYMMDD")
@@ -137,7 +136,8 @@
 7.项目简化
 	7.1修改了ThemeList中的type判断，根据API分析，type作用未知，但是目前我查到的类型type都是为0，所以对原代码进行了判断的简化，即只存在type为0的情况
 	7.2ZhihuHeadFix我把它去掉了。
-
+	7.3刚刚接触webpack肯定对那些代码很陌生，所以我给build config这两个文件夹里的代码加了很多的注释，关于页面热更新，loader处理器，http代理表等等
+	详情参照：http://blog.csdn.net/hongchh/article/details/55113751
 8.vue-cli架构
 	参照vue命令行工具
 	# 全局安装 vue-cli
