@@ -1,7 +1,8 @@
 # 仿知乎日报学习笔记与优化
-		[单页网页应用项目原地址（有些小BUG）](https://github.com/pomelo-chuan/Zhihu-Daily-Vue.js)
-		[知乎日报api查询](https://github.com/izzyleung/ZhihuDailyPurify/wiki/%E7%9F%A5%E4%B9%8E%E6%97%A5%E6%8A%A5-API-%E5%88%86%E6%9E%90)
-		如果想看完整的API的json数据的话，推荐使用sublime，网上搜索sublime json格式化。
+[点击这里你可以链接到www.google.com](http://www.google.com)<br />
+		[单页网页应用项目原地址（有些小BUG）](https://github.com/pomelo-chuan/Zhihu-Daily-Vue.js)<br />
+		[知乎日报api查询](https://github.com/izzyleung/ZhihuDailyPurify/wiki/%E7%9F%A5%E4%B9%8E%E6%97%A5%E6%8A%A5-API-%E5%88%86%E6%9E%90)<br />
+		如果想看完整的API的json数据的话，推荐使用sublime，网上搜索sublime json格式化。<br />
 ## 1.vuex跨域访问
 ###  1.1定义api：const urlBase = '/api/';
 ###  1.2在config中配置api的HTTP代理表： HTTP代理表，指定规则，将某些API请求代理到相应的服务器
