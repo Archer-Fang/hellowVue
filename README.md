@@ -78,17 +78,17 @@
 			        // state.LoadingTwo = false
 			    }
 ### 3.4把state通过getter返回，同时在APP.vue中通过计算属性的mapGetters辅助函数获取数据
-			3.4.1返回state
+#### 3.4.1返回state
 				[types.TOGGLE_NEWS_LATEST](state, all) {
 			        state.NewsListRoot.push(all)
 			        state.NewsLatest = all
 			        // state.LoadingTwo = false
 			    }
-	### 		3.4.2获取getter
+#### 3.4.2获取getter
 				computed: {
 					...mapGetters(['DONE_NEWS_LATEST', 'DONE_LOADING_ONE', 'DONE_LOADING_TWO', 'DONE_NEWS_LIST_ROOT'])
 				}
-	### 	3.5在vue.app的html里显示数据
+### 	3.5在vue.app的html里显示数据
 ## 4.状态判断决定是否显示组件
 ### 4.1判断状态显示
 	如果首页两个动画都没有加载的话显示首页的更多按钮
@@ -136,8 +136,6 @@
 ## 7.项目简化
 ### 	7.1修改了ThemeList中的type判断，根据API分析，type作用未知，但是目前我查到的类型type都是为0，所以对原代码进行了判断的简化，即只存在type为0的情况
 ### 	7.2ZhihuHeadFix我把它去掉了。
-### 	7.3刚刚接触webpack肯定对那些代码很陌生，所以我给build config这两个文件夹里的代码加了很多的注释，关于页面热更新，loader处理器，http代理表等等
-	详情参照：http://blog.csdn.net/hongchh/article/details/55113751
 ## 8.vue-cli架构
 	参照vue命令行工具
 	# 全局安装 vue-cli
@@ -149,8 +147,8 @@
 	$ npm run dev
 	我是直接通过yeoman上的模板创建项目的，结构都差不多吧，该项目因为需要跨域访问知乎api，所以需要配置一下proxy---http代理表，当然了，我觉得用JQuery的JSONP也是可以的。至此该项目学习完毕。
 ## 9.对webpack作了详细的说明，可看文件夹build和config中的注释
-    刚刚接触webpack肯定对那些代码很陌生，所以我给build config这两个文件夹里的代码加了很多的注释，关于页面热更新，loader处理器，http代理表等等
-    详情参照：http://blog.csdn.net/hongchh/article/details/55113751
+    刚刚接触webpack肯定对那些代码很陌生，所以我给build config这两个文件夹里的代码加了很多的注释，关于页面热更新，loader处理器，http代理表等等
+[详情参照：](http://blog.csdn.net/hongchh/article/details/55113751)
 ## 10.运行方法/install dependencies(个人比较推荐cnpm，速度快)
 	git clone https://github.com/Archer-Fang/hellowVue
 	npm install
