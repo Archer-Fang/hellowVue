@@ -1,6 +1,5 @@
 # 仿知乎日报学习笔记
-[单页网页应用项目原地址（有些小BUG）](https://github.com/pomelo-chuan/Zhihu-Daily-Vue.js)<br />
-[知乎日报api查询](https://github.com/izzyleung/ZhihuDailyPurify/wiki/%E7%9F%A5%E4%B9%8E%E6%97%A5%E6%8A%A5-API-%E5%88%86%E6%9E%90)<br />
+
 如果想看完整的API的json数据的话，推荐使用sublime，网上搜索sublime json格式化。<br />
 看完整个项目以后我做了一些BUG的修改，组件显示的简化,以及项目从零到一的搭建<br/>
 ## 1.vuex跨域访问
